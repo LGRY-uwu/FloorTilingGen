@@ -542,6 +542,10 @@ def encode_pattern_into_rom(
 
     rom_region = template_schem.regions["ROM"]
     xs, ys, zs, coord_map = _find_rom_beacons(rom_region, placeholder_block)
+    # The floor placer reads ROM in reverse along both X and Z (180-degree flip),
+    # so reverse both axes here to keep the placed floor's orientation identical to the pattern.
+    xs = list(reversed(xs))
+    zs = list(reversed(zs))
     pattern = _extract_pattern_grid(pattern_path)
 
     pw, ph, pl = len(pattern), len(pattern[0]), len(pattern[0][0])
